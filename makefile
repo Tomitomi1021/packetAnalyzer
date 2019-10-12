@@ -1,7 +1,7 @@
 #ファイル定義
 #TODO:ファイルを定義する。
 TARGET= a.out
-OBJS= main.o frameParser.o util.o IPParser.o
+OBJS= main.o frameParser.o util.o IPParser.o TCPParser.o
 
 #ビルドの過程で生成されるファイル
 PRODUCTS=*.o *.out

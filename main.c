@@ -12,6 +12,7 @@
 #include"types.h"
 #include"frameParser.h"
 #include"IPParser.h"
+#include"TCPParser.h"
 
 struct ethframe{
 	struct ethhdr header;
@@ -34,6 +35,37 @@ char* protocolName_Ethernet(int type){
 	case 0x0806:return "Address Resolution packet";
 	default:return "Unknown packet";
 	}
+}
+
+void analyze_TCP(BYTE* data,int size){
+	struct TCPParser_segment segment;
+	printf("\t\t<TCP>\n");
+	{
+		int res;
+		res = TCPParser_parse(data,size,&segment);
+		if(res==-1){
+			printf("\t\tBad packet.\n");
+			return;
+		}
+	}
+	printf("\t\tsrcport:        %d\n",segment.srcport);
+	printf("\t\tdstport:        %d\n",segment.dstport);
+	printf("\t\tseq:            %u\n",segment.seq);
+	printf("\t\tack:            %u\n",segment.ack);
+	printf("\t\theader_length:  %d\n",segment.header_length);
+	printf("\t\tflags:\n");
+	printf("\t\t   NS:             %d\n",segment.flags.NS);
+	printf("\t\t  CWR:             %d\n",segment.flags.CWR);
+	printf("\t\t  ECE:             %d\n",segment.flags.ECE);
+	printf("\t\t  URG:             %d\n",segment.flags.URG);
+	printf("\t\t  ACK:             %d\n",segment.flags.ACK);
+	printf("\t\t  PSH:             %d\n",segment.flags.PSH);
+	printf("\t\t  RST:             %d\n",segment.flags.RST);
+	printf("\t\t  SYN:             %d\n",segment.flags.SYN);
+	printf("\t\t  FIN:             %d\n",segment.flags.FIN);
+	printf("\t\twindow:         %d\n",segment.window);
+	printf("\t\tchecksum:       0x%X\n",segment.checksum);
+	printf("\t\turgent_pointer: 0x%X\n",segment.urgent_pointer);
 }
 
 void analyze_IP(BYTE* data,int size){
@@ -76,6 +108,14 @@ void analyze_IP(BYTE* data,int size){
 			((BYTE*)&packet.dstaddr)[1],
 			((BYTE*)&packet.dstaddr)[0]
 			);
+	switch(packet.protocol){
+	case 0x6:
+		analyze_TCP(
+				packet.payload,
+				packet.total_length-packet.header_length*4
+				);
+		break;
+	}
 	free(packet.payload);
 }
 
