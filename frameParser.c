@@ -1,5 +1,5 @@
 #include<string.h>
-#include<linux/if_ehter.h>
+#include<linux/if_ether.h>
 #include"types.h"
 #include"frameParser.h"
 
