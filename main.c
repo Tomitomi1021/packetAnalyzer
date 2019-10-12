@@ -47,7 +47,7 @@ void analyze_UDP(BYTE* data,int size){
 		res=UDPParser_parse(data,size,&dgram);
 		if(res==-1){
 			printf("Bad packet.\n");
-			return 0;
+			return ;
 		}
 	}
 	printf("\t\tsrcport:  %d\n",dgram.srcport);
@@ -87,6 +87,8 @@ void analyze_TCP(BYTE* data,int size){
 	printf("\t\twindow:         %d\n",segment.window);
 	printf("\t\tchecksum:       0x%X\n",segment.checksum);
 	printf("\t\turgent_pointer: 0x%X\n",segment.urgent_pointer);
+
+	free(segment.payload);
 }
 
 void analyze_IP(BYTE* data,int size){

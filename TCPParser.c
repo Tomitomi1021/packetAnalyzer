@@ -33,5 +33,14 @@ int TCPParser_parse(BYTE* data,int size,struct TCPParser_segment* res){
 		memcpy(res->options,data+20,res->header_length*4-20);
 	}
 
+	res->payload=(BYTE*)malloc(size-res->header_length*4);
+	if(res->payload==0)return -1;
+
+	memcpy(
+		res->payload,
+		data+res->header_length*4,
+		size-res->header_length*4
+		);
+
 	return 0;
 }
