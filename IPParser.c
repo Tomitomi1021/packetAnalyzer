@@ -11,11 +11,10 @@ int IPParser_parse(BYTE* IPdata,int datasize,struct IPParser_packet* res){
 	res->header_length=(IPdata[0] & 0x0F) >> 0;
 
 	if(datasize < res->header_length*4)return -1;
+	if(res->header_length < 5)return -1;
 
 	res->type_of_service=IPdata[1];
 	reverseAndCopy(&res->total_length,IPdata+2,2);
-
-	if(datasize < res->total_length)return -1;
 
 	reverseAndCopy(&res->identification,IPdata+4,2);
 	res->flags=(IPdata[6] & 0b11100000) >> 5;
@@ -31,12 +30,15 @@ int IPParser_parse(BYTE* IPdata,int datasize,struct IPParser_packet* res){
 		memcpy(&res->options,IPdata+20,res->header_length*4-20);
 	}
 
-	res->payload=(BYTE*)malloc(res->total_length-res->header_length*4);
+	if(datasize < res->total_length)return -1;
+
+	res->payload=(BYTE*)malloc(res->total_length - res->header_length*4);
 	if(res->payload==0)return -1;
+
 	memcpy(
 		res->payload,
 		IPdata+res->header_length*4,
-		res->total_length-res->header_length*4
+		res->total_length - res->header_length*4
 		);
 	return 0;
 }

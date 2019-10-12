@@ -134,7 +134,7 @@ int main(){
 	}
 
 	while(1){
-		BYTE data[ETH_HLEN+ETH_DATA_LEN+ETH_FCS_LEN];
+		BYTE data[ETH_HLEN+ETH_DATA_LEN+10000];
 		size=recv(sock_r,data,sizeof(data),0);
 		analyze(data,size);
 	}
