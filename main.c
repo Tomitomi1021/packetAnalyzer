@@ -111,7 +111,6 @@ void analyze(BYTE* data,int size){
 		protocolName_Ethernet(frame.type)
 		);
 	printf("length:  %d\n",frame.length);
-//	printf("fcs:     0x%X\n",frame.fcs);
 	switch(frame.type){
 	case 0x800:
 		analyze_IP(frame.payload,frame.length);

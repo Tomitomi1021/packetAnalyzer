@@ -30,9 +30,5 @@ int frameParser_parse(BYTE* ethframe,int datasize,struct frameParser_frame* res)
 
 	memcpy(&res->payload,ethframe+ETH_HLEN,res->length);
 
-//	reverseAndCopy(&res->fcs,ethframe+ETH_HLEN+res->length,4);
-	res->fcs=0;
-	
-
 	return 0;
 }
