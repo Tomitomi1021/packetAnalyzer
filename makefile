@@ -1,14 +1,14 @@
 #ファイル定義
 #TODO:ファイルを定義する。
 TARGET= a.out
-OBJS= main.o frameParser.o util.o
+OBJS= main.o frameParser.o util.o IPParser.o
 
 #ビルドの過程で生成されるファイル
 PRODUCTS=*.o *.out
 
 #コンパイラ設定
 LIBS=
-GCC_COMPILEOPTION=
+GCC_COMPILEOPTION= -g
 GXX_COMPILEOPTION=
 LINKOPTION=
 
@@ -37,7 +37,7 @@ clean:
 	rm -rf $(PRODUCTS) $(TARGET)
 
 run:all
-	./$(TARGET)
+	sudo ./$(TARGET)
 
 debug:all
 	$(DEBUGGER) $(TARGET)
