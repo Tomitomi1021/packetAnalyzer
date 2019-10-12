@@ -5,6 +5,8 @@
 #include"IPParser.h"
 
 int IPParser_parse(BYTE* IPdata,int datasize,struct IPParser_packet* res){
+	if(datasize < 1)return -1;
+
 	res->version=(IPdata[0] & 0xF0) >> 4;
 	res->header_length=(IPdata[0] & 0x0F) >> 0;
 
