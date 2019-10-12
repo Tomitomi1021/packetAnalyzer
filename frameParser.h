@@ -1,4 +1,4 @@
-struct ethdata{
+struct frameParser_frame{
 	DWORD dstaddr;
 	DWORD srcaddr;
 	WORD type;
@@ -7,4 +7,4 @@ struct ethdata{
 	DWORD fcs;
 };
 
-int parseFrame(BYTE* ethframe,int datasize,struct ethdata* res);
+int frameParser_parse(BYTE* ethframe,int datasize,struct frameParser_frame* res);

@@ -9,7 +9,7 @@ void reverseAndCopy(void* dst,void* src,size_t size){
 	}
 }
 
-int parseFrame(BYTE* ethframe,int datasize,struct ethdata* res){
+int frameParser_parse(BYTE* ethframe,int datasize,struct frameParser_frame* res){
 
 	if(datasize<ETH_HLEN)return -1;
 
