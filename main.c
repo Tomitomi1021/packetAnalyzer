@@ -13,6 +13,7 @@
 #include"frameParser.h"
 #include"IPParser.h"
 #include"TCPParser.h"
+#include"UDPParser.h"
 
 struct ethframe{
 	struct ethhdr header;
@@ -35,6 +36,26 @@ char* protocolName_Ethernet(int type){
 	case 0x0806:return "Address Resolution packet";
 	default:return "Unknown packet";
 	}
+}
+
+void analyze_UDP(BYTE* data,int size){
+	struct UDPParser_datagram dgram;
+
+	printf("<UDP>\n");
+	{
+		int res;
+		res=UDPParser_parse(data,size,&dgram);
+		if(res==-1){
+			printf("Bad packet.\n");
+			return 0;
+		}
+	}
+	printf("\t\tsrcport:  %d\n",dgram.srcport);
+	printf("\t\tdstport:  %d\n",dgram.dstport);
+	printf("\t\tlength:   %d\n",dgram.length);
+	printf("\t\tchecksum: %d\n",dgram.checksum);
+
+	free(dgram.payload);
 }
 
 void analyze_TCP(BYTE* data,int size){
@@ -111,6 +132,12 @@ void analyze_IP(BYTE* data,int size){
 	switch(packet.protocol){
 	case 0x6:
 		analyze_TCP(
+				packet.payload,
+				packet.total_length-packet.header_length*4
+				);
+		break;
+	case 0x11:
+		analyze_UDP(
 				packet.payload,
 				packet.total_length-packet.header_length*4
 				);
