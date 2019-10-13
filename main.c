@@ -14,17 +14,47 @@
 #include"IP.h"
 #include"TCP.h"
 #include"UDP.h"
+#include"ICMP.h"
 
+void analyze_ICMP(BYTE* data,int size){
+	struct ICMP_data mes;
+	
+	printf("\t\t<ICMP>\n");
+	{
+		int res;
+		res=ICMP_parse(data,size,&mes);
+		if(res==-1){
+			printf("\t\tBad packet.\n");
+		}
+	}
+	
+	printf("\t\ttype:     %d(%s)\n",
+		mes.type,
+		ICMP_messageName(mes.type)
+		);
+	printf("\t\tcode:     %d\n",mes.code);
+	printf("\t\tchecksum: %d\n",mes.checksum);
+	switch(mes.type){
+	case 0:
+	case 8:
+		printf("\t\tid:       %d\n",mes.echo.id);
+		printf("\t\tseq:      %d\n",mes.echo.seq);
+		free(mes.echo.data);
+		break;
+	default:
+		free(mes.data);
+	}
+}
 
 void analyze_UDP(BYTE* data,int size){
 	struct UDP_datagram dgram;
 
-	printf("<UDP>\n");
+	printf("\t\t<UDP>\n");
 	{
 		int res;
 		res=UDP_parse(data,size,&dgram);
 		if(res==-1){
-			printf("Bad packet.\n");
+			printf("\t\tBad packet.\n");
 			return ;
 		}
 	}
@@ -110,6 +140,12 @@ void analyze_IP(BYTE* data,int size){
 			((BYTE*)&packet.dstaddr)[0]
 			);
 	switch(packet.protocol){
+	case 0x1:
+		analyze_ICMP(
+				packet.payload,
+				packet.total_length-packet.header_length*4
+				);
+		break;
 	case 0x6:
 		analyze_TCP(
 				packet.payload,
@@ -171,7 +207,6 @@ int main(){
 	int size;
 
 	sock_r = socket(AF_PACKET,SOCK_RAW,htons(ETH_P_ALL));
-	
 	if(sock_r<0){
 		char* errstr=strerror(errno);
 		printf("error in socket\n");
