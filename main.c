@@ -16,24 +16,6 @@
 #include"UDPParser.h"
 
 
-char* protocolName_IP(int type){
-	switch(type){
-	case 0x1:return "ICMP";
-	case 0x2:return "IGMP";
-	case 0x6:return "TCP";
-	case 0x11:return "UDP";
-	default:return "UNKNOWN";
-	}
-}
-
-char* protocolName_Ethernet(int type){
-	switch(type){
-	case 0x0800:return "Internet Protocol packet";
-	case 0x0806:return "Address Resolution packet";
-	default:return "Unknown packet";
-	}
-}
-
 void analyze_UDP(BYTE* data,int size){
 	struct UDP_datagram dgram;
 
@@ -112,7 +94,7 @@ void analyze_IP(BYTE* data,int size){
 	printf("\tTTL:             %d\n",packet.TTL);
 	printf("\tprotocol:        0x%X(%s)\n",
 			packet.protocol,
-			protocolName_IP(packet.protocol)
+			IP_protocolName(packet.protocol)
 			);
 	printf("\tchecksum:        0x%X\n",packet.checksum);
 	printf("\tsrcaddr:         %d.%d.%d.%d\n",
@@ -173,7 +155,7 @@ void analyze(BYTE* data,int size){
 		);
 	printf("type:    0x%X(%s)\n",
 		frame.type,
-		protocolName_Ethernet(frame.type)
+		ethernet_protocolName(frame.type)
 		);
 	printf("length:  %d\n",frame.length);
 	switch(frame.type){

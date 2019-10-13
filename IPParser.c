@@ -42,3 +42,13 @@ int IP_parse(BYTE* IPdata,int datasize,struct IP_packet* res){
 		);
 	return 0;
 }
+
+char* IP_protocolName(int type){
+	switch(type){
+	case 0x1:return "ICMP";
+	case 0x2:return "IGMP";
+	case 0x6:return "TCP";
+	case 0x11:return "UDP";
+	default:return "UNKNOWN";
+	}
+}

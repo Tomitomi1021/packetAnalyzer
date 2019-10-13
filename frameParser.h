@@ -7,3 +7,4 @@ struct ethernet_frame{
 };
 
 int ethernet_parse(BYTE* ethframe,int datasize,struct ethernet_frame* res);
+char* ethernet_protocolName(int type);

@@ -16,3 +16,4 @@ struct IP_packet{
 };
 
 int IP_parse(BYTE* IPdata,int datasize,struct IP_packet* res);
+char* IP_protocolName(int type);

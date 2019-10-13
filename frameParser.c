@@ -32,3 +32,11 @@ int ethernet_parse(BYTE* ethframe,int datasize,struct ethernet_frame* res){
 
 	return 0;
 }
+
+char* ethernet_protocolName(int type){
+	switch(type){
+	case 0x0800:return "Internet Protocol packet";
+	case 0x0806:return "Address Resolution packet";
+	default:return "Unknown packet";
+	}
+}
