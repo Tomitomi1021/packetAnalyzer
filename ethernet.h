@@ -1,6 +1,6 @@
 struct ethernet_frame{
-	DWORD dstaddr;
-	DWORD srcaddr;
+	QWORD dstaddr;
+	QWORD srcaddr;
 	WORD type;
 	WORD length;
 	BYTE payload[ETH_DATA_LEN+10000];
