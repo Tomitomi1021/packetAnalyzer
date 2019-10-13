@@ -1,7 +1,7 @@
 #include<string.h>
 #include<linux/if_ether.h>
 #include"types.h"
-#include"frameParser.h"
+#include"ethernet.h"
 #include"util.h"
 
 int ethernet_parse(BYTE* ethframe,int datasize,struct ethernet_frame* res){

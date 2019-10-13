@@ -10,10 +10,10 @@
 #include<stdlib.h>
 #include<net/ethernet.h>
 #include"types.h"
-#include"frameParser.h"
-#include"IPParser.h"
-#include"TCPParser.h"
-#include"UDPParser.h"
+#include"ethernet.h"
+#include"IP.h"
+#include"TCP.h"
+#include"UDP.h"
 
 
 void analyze_UDP(BYTE* data,int size){

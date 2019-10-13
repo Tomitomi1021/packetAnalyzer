@@ -2,7 +2,7 @@
 #include<string.h>
 #include"types.h"
 #include"util.h"
-#include"IPParser.h"
+#include"IP.h"
 
 int IP_parse(BYTE* IPdata,int datasize,struct IP_packet* res){
 	if(datasize < 1)return -1;

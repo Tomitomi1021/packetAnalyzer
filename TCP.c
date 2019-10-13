@@ -2,7 +2,7 @@
 #include<string.h>
 #include"types.h"
 #include"util.h"
-#include"TCPParser.h"
+#include"TCP.h"
 
 int TCP_parse(BYTE* data,int size,struct TCP_segment* res){
 	if(size < 20)return -1;
