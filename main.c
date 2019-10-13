@@ -15,6 +15,7 @@
 #include"TCP.h"
 #include"UDP.h"
 #include"ICMP.h"
+#include"ARP.h"
 
 void analyze_ICMP(BYTE* data,int size){
 	struct ICMP_data mes;
@@ -162,6 +163,56 @@ void analyze_IP(BYTE* data,int size){
 	free(packet.payload);
 }
 
+void analyze_ARP(BYTE* data,int size){
+	struct ARP_data mes;
+	printf("\t<ARP>\n");
+	{
+		int res;
+		res=ARP_parse(data,size,&mes);
+		if(res==-1){
+			printf("Bad packet.\n");
+			return ;
+		}
+	}
+	printf("\tHardware Type:           0x%X\n",mes.hardware_type);
+	printf("\tProtocol Type:           0x%X\n",mes.protocol_type);
+	printf("\tHardware Address Length: %d\n",
+		mes.hardware_address_length);
+	printf("\tProtocol Address Length: %d\n",
+		mes.protocol_address_length);
+	printf("\tOperation:               0x%X\n",mes.operation);
+	printf("\tsender hardware address: ");
+	printf("%02X:%02X:%02X:%02X:%02X:%02X\n",
+		((BYTE*)&mes.sender_hardware_address)[5],
+		((BYTE*)&mes.sender_hardware_address)[4],
+		((BYTE*)&mes.sender_hardware_address)[3],
+		((BYTE*)&mes.sender_hardware_address)[2],
+		((BYTE*)&mes.sender_hardware_address)[1],
+		((BYTE*)&mes.sender_hardware_address)[0]
+		);
+	printf("\tsender protocol address: %d.%d.%d.%d\n",
+			((BYTE*)&mes.sender_protocol_address)[3],
+			((BYTE*)&mes.sender_protocol_address)[2],
+			((BYTE*)&mes.sender_protocol_address)[1],
+			((BYTE*)&mes.sender_protocol_address)[0]
+			);
+	printf("\ttarget hardware address: ");
+	printf("%02X:%02X:%02X:%02X:%02X:%02X\n",
+		((BYTE*)&mes.target_hardware_address)[5],
+		((BYTE*)&mes.target_hardware_address)[4],
+		((BYTE*)&mes.target_hardware_address)[3],
+		((BYTE*)&mes.target_hardware_address)[2],
+		((BYTE*)&mes.target_hardware_address)[1],
+		((BYTE*)&mes.target_hardware_address)[0]
+		);
+	printf("\ttarget protocol address: %d.%d.%d.%d\n",
+			((BYTE*)&mes.target_protocol_address)[3],
+			((BYTE*)&mes.target_protocol_address)[2],
+			((BYTE*)&mes.target_protocol_address)[1],
+			((BYTE*)&mes.target_protocol_address)[0]
+			);
+}
+
 void analyze(BYTE* data,int size){
 	struct ethernet_frame frame;
 	{
@@ -197,6 +248,9 @@ void analyze(BYTE* data,int size){
 	switch(frame.type){
 	case 0x800:
 		analyze_IP(frame.payload,frame.length);
+		break;
+	case 0x806:
+		analyze_ARP(frame.payload,frame.length);
 		break;
 	}
 	printf("==========================\n");

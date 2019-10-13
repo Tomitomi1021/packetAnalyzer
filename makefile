@@ -1,7 +1,7 @@
 #ファイル定義
 #TODO:ファイルを定義する。
 TARGET= a.out
-OBJS= main.o ethernet.o util.o IP.o TCP.o UDP.o ICMP.o
+OBJS= main.o ethernet.o util.o IP.o TCP.o UDP.o ICMP.o ARP.o
 
 #ビルドの過程で生成されるファイル
 PRODUCTS=*.o *.out
