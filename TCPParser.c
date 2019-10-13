@@ -4,7 +4,7 @@
 #include"util.h"
 #include"TCPParser.h"
 
-int TCPParser_parse(BYTE* data,int size,struct TCPParser_segment* res){
+int TCP_parse(BYTE* data,int size,struct TCP_segment* res){
 	if(size < 20)return -1;
 
 	reverseAndCopy(&res->srcport,data+0,2);

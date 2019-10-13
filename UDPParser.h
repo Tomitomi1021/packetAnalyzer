@@ -1,4 +1,4 @@
-struct UDPParser_datagram{
+struct UDP_datagram{
 	WORD srcport;
 	WORD dstport;
 	WORD length;
@@ -6,4 +6,4 @@ struct UDPParser_datagram{
 	BYTE* payload;
 };
 
-int UDPParser_parse(BYTE* data,int size,struct UDPParser_datagram* res);
+int UDP_parse(BYTE* data,int size,struct UDP_datagram* res);

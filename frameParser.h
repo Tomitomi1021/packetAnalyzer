@@ -1,4 +1,4 @@
-struct frameParser_frame{
+struct ethernet_frame{
 	DWORD dstaddr;
 	DWORD srcaddr;
 	WORD type;
@@ -6,4 +6,4 @@ struct frameParser_frame{
 	BYTE payload[ETH_DATA_LEN+10000];
 };
 
-int frameParser_parse(BYTE* ethframe,int datasize,struct frameParser_frame* res);
+int ethernet_parse(BYTE* ethframe,int datasize,struct ethernet_frame* res);

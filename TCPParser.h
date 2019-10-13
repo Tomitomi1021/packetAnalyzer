@@ -1,4 +1,4 @@
-struct TCPParser_segment{
+struct TCP_segment{
 	WORD srcport;
 	WORD dstport;
 	DWORD seq;
@@ -22,4 +22,4 @@ struct TCPParser_segment{
 	BYTE* payload;
 };
 
-int TCPParser_parse(BYTE* data,int size,struct TCPParser_segment* res);
+int TCP_parse(BYTE* data,int size,struct TCP_segment* res);

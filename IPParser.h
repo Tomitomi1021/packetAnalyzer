@@ -1,4 +1,4 @@
-struct IPParser_packet{
+struct IP_packet{
 	BYTE version;
 	BYTE header_length;
 	BYTE type_of_service;
@@ -15,4 +15,4 @@ struct IPParser_packet{
 	BYTE* payload;
 };
 
-int IPParser_parse(BYTE* IPdata,int datasize,struct IPParser_packet* res);
+int IP_parse(BYTE* IPdata,int datasize,struct IP_packet* res);

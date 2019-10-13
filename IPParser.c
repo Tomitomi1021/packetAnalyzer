@@ -4,7 +4,7 @@
 #include"util.h"
 #include"IPParser.h"
 
-int IPParser_parse(BYTE* IPdata,int datasize,struct IPParser_packet* res){
+int IP_parse(BYTE* IPdata,int datasize,struct IP_packet* res){
 	if(datasize < 1)return -1;
 
 	res->version=(IPdata[0] & 0xF0) >> 4;

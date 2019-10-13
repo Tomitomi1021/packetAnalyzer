@@ -39,12 +39,12 @@ char* protocolName_Ethernet(int type){
 }
 
 void analyze_UDP(BYTE* data,int size){
-	struct UDPParser_datagram dgram;
+	struct UDP_datagram dgram;
 
 	printf("<UDP>\n");
 	{
 		int res;
-		res=UDPParser_parse(data,size,&dgram);
+		res=UDP_parse(data,size,&dgram);
 		if(res==-1){
 			printf("Bad packet.\n");
 			return ;
@@ -59,11 +59,11 @@ void analyze_UDP(BYTE* data,int size){
 }
 
 void analyze_TCP(BYTE* data,int size){
-	struct TCPParser_segment segment;
+	struct TCP_segment segment;
 	printf("\t\t<TCP>\n");
 	{
 		int res;
-		res = TCPParser_parse(data,size,&segment);
+		res = TCP_parse(data,size,&segment);
 		if(res==-1){
 			printf("\t\tBad packet.\n");
 			return;
@@ -92,11 +92,11 @@ void analyze_TCP(BYTE* data,int size){
 }
 
 void analyze_IP(BYTE* data,int size){
-	struct IPParser_packet packet;
+	struct IP_packet packet;
 	printf("\t<IP>\n");
 	{
 		int res;
-		res=IPParser_parse(
+		res=IP_parse(
 					data,
 					size,
 					&packet
@@ -149,9 +149,9 @@ void analyze_IP(BYTE* data,int size){
 }
 
 void analyze(BYTE* data,int size){
-	struct frameParser_frame frame;
+	struct ethernet_frame frame;
 	{
-		int res=frameParser_parse(data,size,&frame);
+		int res=ethernet_parse(data,size,&frame);
 		if(res==-1){
 			printf("Bad packet.\n");
 			return;

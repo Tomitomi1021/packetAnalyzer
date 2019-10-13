@@ -4,7 +4,7 @@
 #include"frameParser.h"
 #include"util.h"
 
-int frameParser_parse(BYTE* ethframe,int datasize,struct frameParser_frame* res){
+int ethernet_parse(BYTE* ethframe,int datasize,struct ethernet_frame* res){
 
 	if(datasize<ETH_HLEN)return -1;
 
