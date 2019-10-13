@@ -15,10 +15,6 @@
 #include"TCPParser.h"
 #include"UDPParser.h"
 
-struct ethframe{
-	struct ethhdr header;
-	unsigned char payload[ETH_DATA_LEN+ETH_FCS_LEN];
-};
 
 char* protocolName_IP(int type){
 	switch(type){
